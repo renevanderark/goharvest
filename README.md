@@ -1,4 +1,4 @@
 go-oai
 ======
 
-First steps into parallel OAI scrape lib
+First steps into parallel OAI scrape lib.
