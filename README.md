@@ -8,6 +8,7 @@ First steps into parallel OAI scrape lib. TODO:
 
 Example
 ----
+```go
 package main
 
 import (
