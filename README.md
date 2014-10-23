@@ -8,9 +8,6 @@ First steps into parallel OAI scrape lib. TODO:
 
 Example
 ----
-Some example code for this package
-
-```go
 package main
 
 import (
@@ -50,7 +47,8 @@ func main() {
 		BaseUrl: "http://services.kb.nl/mdo/oai", 
 		Set: "DTS",
 		MetadataPrefix: "didl",
-		Verb: "ListIdentifiers", 
+		Verb: "ListIdentifiers",
+		From: "2012-09-01T00:00:00.000Z",
 	}
 	fmt.Printf("%s\n", req)
 	req.Harvest(dump)

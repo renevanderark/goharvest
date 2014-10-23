@@ -42,6 +42,15 @@ func (req *OAIRequest) String() string {
 		qs = append(qs, req.Identifier)
 	}
 
+	if req.From != "" {
+		qs = append(qs, "&from=")
+		qs = append(qs, req.From)
+	}
+
+	if req.Until != "" {
+		qs = append(qs, "&until=")
+		qs = append(qs, req.Until)
+	}
 	return strings.Join(qs, "")
 }
 

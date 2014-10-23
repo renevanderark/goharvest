@@ -6,7 +6,7 @@ package oai
 
 // Represents a request URL to an OAI-PMH service
 type OAIRequest struct {
-	BaseUrl, Set, MetadataPrefix, Verb, Identifier, ResumptionToken string
+	BaseUrl, Set, MetadataPrefix, Verb, Identifier, ResumptionToken, From, Until string
 }
 
 type OAIHeader struct {
