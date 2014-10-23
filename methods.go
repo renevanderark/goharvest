@@ -8,23 +8,28 @@ import (
 	"strings"
 )
 
+// Determine the resumption token in this OAIResponse
 func (resp *OAIResponse) ResumptionToken() (hasResumptionToken bool, resumptionToken string) {
 	hasResumptionToken = false
 	resumptionToken = ""
 	if resp == nil { return }
 
+	// First attempt to obtain a resumption token from a ListIdentifiers response
 	resumptionToken =  resp.ListIdentifiers.ResumptionToken
 
+	// Then attempt to obtain a resumption token from a ListRecords response
 	if resumptionToken == "" {
 		resumptionToken =  resp.ListRecords.ResumptionToken
 	}
 
+	// If a non-empty resumption token turned up it can safely inferred that...
 	if resumptionToken != "" { hasResumptionToken = true }
 
 	return
 }
 
-func (req *OAIRequest) String() (url string) {
+// String representation of the OAI Request
+func (req *OAIRequest) String() string {
 	qs := []string{req.BaseUrl, "?set=", req.Set, "&metadataPrefix=", req.MetadataPrefix, "&verb=", req.Verb}
 
 	if req.ResumptionToken != "" {
@@ -36,27 +41,45 @@ func (req *OAIRequest) String() (url string) {
 		qs = append(qs, "&identifier=")
 		qs = append(qs, req.Identifier)
 	}
+
 	return strings.Join(qs, "")
 }
 
+// Perform an HTTP GET request using the OAI Requests fields
+// and return an OAI Response reference
 func (req *OAIRequest) Perform() (oaiResponse *OAIResponse) {
+	// Perform the GET request
 	resp, err := http.Get(req.String())
 	if err != nil { panic(err) }
 
+	// Make sure the response body object will be closed after
+	// reading all the content body's data
 	defer resp.Body.Close()
+
+	// Read all the data
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil { panic(err) }
 
+	// Unmarshall all the data 
 	err = xml.Unmarshal(body, &oaiResponse)
 	if err != nil { panic(err) }
 
 	return
 }
 
+// Perform a harvest of a complete OAI set, or simply one request
+// call the batchCallback function argument with the OAI responses
 func (req *OAIRequest) Harvest(batchCallback func(*OAIResponse)) {
+	// Use Perform to get the OAI response
 	oaiResponse := req.Perform()
+
+	// Execute the callback function with the response
 	batchCallback(oaiResponse)
+
+	// Check for a resumptionToken
 	hasResumptionToken, resumptionToken := oaiResponse.ResumptionToken()
+
+	// Harvest further if there is a resumption token
 	if hasResumptionToken == true {
 		req.ResumptionToken = resumptionToken
 		req.Harvest(batchCallback)
