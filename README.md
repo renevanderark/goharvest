@@ -99,5 +99,4 @@ func main() {
 	waitForKey()
 	req.Harvest(dump)
 }
-}
 ```
