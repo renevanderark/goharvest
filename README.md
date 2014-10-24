@@ -25,11 +25,6 @@ func waitForKey() {
 	_, _ = reader.ReadString('\n')
 }
 
-// Print the OAI Record's metadata body to stdout
-func dumpMeta(resp *oai.OAIResponse) {
-	fmt.Printf("%s\n", resp.GetRecord.Record.Metadata.Body)
-}
-
 // Print the OAI Record's about body to stdout
 func dumpAbout(resp *oai.OAIResponse) {
 	fmt.Printf("%s\n", resp.GetRecord.Record.About.Body)
@@ -38,8 +33,11 @@ func dumpAbout(resp *oai.OAIResponse) {
 // Print the OAI Response object to stdout
 func dump(resp *oai.OAIResponse) {
 	_, resTok := resp.ResumptionToken()
-	fmt.Printf("%+v\n", resp)
-	fmt.Printf("---- %s ----\n\n", resTok)
+	fmt.Printf("%#v\n", resp)
+	if resTok != "" {
+		fmt.Printf("---- Resumption token = \"%s\" ----\n\n", resTok)
+	}
+	waitForKey()
 }
 
 func main() {
@@ -51,7 +49,6 @@ func main() {
 	fmt.Printf("ListSets:\n%s", req)
 	waitForKey()
 	req.Harvest(dump)
-	waitForKey()
 
 	// Perform ListMetadataFormats, pass dump func as callback
 	req = &oai.OAIRequest{
@@ -61,9 +58,8 @@ func main() {
 	fmt.Printf("ListMetadataFormats:\n%s", req)
 	waitForKey()
 	req.Harvest(dump)
-	waitForKey()
 
-	// Perform GetRecord, pass dumpMeta func as callback
+	// Perform GetRecord, pass dump func as callback
 	req = &oai.OAIRequest{
 		BaseUrl: "http://services.kb.nl/mdo/oai", 
 		Set: "DTS",
@@ -73,8 +69,7 @@ func main() {
 	}
 	fmt.Printf("GetRecord: \n%s", req)
 	waitForKey()
-	req.Harvest(dumpMeta)
-	waitForKey()
+	req.Harvest(dump)
 
 	// Perform ListIdentifiers, pass dump func as callback:
 	// req.Harvest will iterate until out of resumption tokens
@@ -84,6 +79,7 @@ func main() {
 		Set: "DTS",
 		MetadataPrefix: "dcx",
 		Verb: "ListIdentifiers",
+		From: "2012-09-06T014:00:00.000Z",
 	}
 	fmt.Printf("ListIdentifiers:\n%s", req)
 	waitForKey()
@@ -97,10 +93,11 @@ func main() {
 		Set: "bbc",
 		MetadataPrefix: "oai_dc",
 		Verb: "ListRecords",
-		From: "2008-01-01T00:00:00Z",
+		From: "2010-07-19T20:01:36Z",
 	}
 	fmt.Printf("ListRecords:\n%s", req)
 	waitForKey()
 	req.Harvest(dump)
+}
 }
 ```
