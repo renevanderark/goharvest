@@ -90,7 +90,23 @@ func (req *OAIRequest) Harvest(batchCallback func(*OAIResponse)) {
 
 	// Harvest further if there is a resumption token
 	if hasResumptionToken == true {
+		req.Set = ""
+		req.MetadataPrefix = ""
+		req.From = ""
 		req.ResumptionToken = resumptionToken
 		req.Harvest(batchCallback)
 	}
 }
+
+// Reads OAI PMH response XML from a file
+func FromFile(filename string) (oaiResponse *OAIResponse) {
+	bytes, err := ioutil.ReadFile(filename)
+	if err != nil { panic(err) }
+
+	// Unmarshall all the data 
+	err = xml.Unmarshal(bytes, &oaiResponse)
+	if err != nil { panic(err) }
+
+	return
+}
+

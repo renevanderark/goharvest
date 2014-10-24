@@ -14,16 +14,20 @@ type OAIHeader struct {
 	Identifier string `xml:"identifier"`
 	DateStamp string `xml:"datestamp"`
 	SetSpec []string `xml:"setSpec"`
-	About string `xml:"about"`
 }
 
 type Metadata struct {
 	Body []byte `xml:",innerxml"`
 }
 
+type About struct {
+	Body []byte `xml:",innerxml"`
+}
+
 type OAIRecord struct {
 	Header OAIHeader `xml:"header"`
 	Metadata Metadata `xml:"metadata"`
+	About About `xml:"about"`
 }
 
 
@@ -52,6 +56,31 @@ type OAIError struct {
 	Message string `xml:",chardata"`
 }
 
+type MetadataFormat struct {
+	MetadataPrefix string `xml:"metadataPrefix"`
+	Schema string `xml:"schema"`
+	MetadataNamespace string `xml:"metadataNamespace"`
+}
+
+type ListMetadataFormats struct {
+	MetadataFormat []MetadataFormat `xml:"metadataFormat"`
+}
+
+type SetDescription struct {
+	Body []byte `xml:",innerxml"`
+}
+
+type Set struct {
+	SetSpec string `xml:"setSpec"`
+	SetName string `xml:"setName"`
+	SetDescription SetDescription `xml:"setDescription"`
+
+}
+
+type ListSets struct {
+	Set []Set `xml:"set"`
+}
+
 // The struct representation of an OAI-PMH XML response
 type OAIResponse struct {
 	ResponseDate string `xml:"responseDate"`
@@ -60,5 +89,7 @@ type OAIResponse struct {
 	ListIdentifiers ListIdentifiers `xml:"ListIdentifiers"`
 	ListRecords ListRecords `xml:"ListRecords"`
 	GetRecord GetRecord `xml:"GetRecord"`
+	ListMetadataFormats ListMetadataFormats `xml:"ListMetadataFormats"`
+	ListSets ListSets `xml:"ListSets"`
 }
 
