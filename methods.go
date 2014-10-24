@@ -6,6 +6,7 @@ import (
 	"encoding/xml"
 	"io/ioutil"
 	"strings"
+	"fmt"
 )
 
 // Determine the resumption token in this OAIResponse
@@ -109,4 +110,14 @@ func FromFile(filename string) (oaiResponse *OAIResponse) {
 
 	return
 }
+
+// Formatter for Metadata content
+func (md Metadata) GoString() string { return fmt.Sprintf("%s", md.Body); }
+
+// Formatter for SetDescription content
+func (sd SetDescription) GoString() string { return fmt.Sprintf("%s", sd.Body); }
+
+// Formatter for SetDescription content
+func (ab About) GoString() string { return fmt.Sprintf("%s", ab.Body); }
+
 
