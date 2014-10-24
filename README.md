@@ -2,9 +2,10 @@ go-oai
 ======
 
 First steps into parallel OAI scrape lib. TODO:
-- support date parameters
+- support Identify verb
+- human readable formatter for OAIResponse struct 
 - support channels / examples for channels
-- example for parsing metadata content body
+
 
 Example
 ----
