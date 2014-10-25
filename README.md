@@ -7,9 +7,21 @@ Demo's can be found in bin/
 
 Prerequisites
 ---
-The go tool
+- The go tool
+- git
 
-Starting the demo's
+Get started
+---
+
+Clone the project into your Go workspace
+```sh
+$ cd $GOPATH/src
+$ mkdir -p github.com/renevanderark
+$ cd github.com/renevanderark
+$ git clone https://github.com/renevanderark/goharvest.git
+```
+
+Starting the demo's:
 
 ```sh
 $ go install github.com/renevanderark/goharvest/bin/oai_demo
