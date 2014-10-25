@@ -28,12 +28,12 @@ type OAIRecord struct {
 
 
 type ListIdentifiers struct {
-	Header []OAIHeader `xml:"header"`
+	Headers []OAIHeader `xml:"header"`
 	ResumptionToken string `xml:"resumptionToken"`
 }
 
 type ListRecords struct {
-	Record []OAIRecord `xml:"record"`
+	Records []OAIRecord `xml:"record"`
 	ResumptionToken string `xml:"resumptionToken"`
 }
 
