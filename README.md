@@ -3,7 +3,30 @@ goharvest
 
 OAI-PMH harvester implementations for golang.
 
-Demo's can be found in bin/
+Hello OAI
+---
+```go
+package main
+
+import (
+	"github.com/renevanderark/goharvest/oai"
+	"fmt"
+)
+
+func main() {
+	(&oai.OAIRequest{
+		BaseUrl:"http://services.kb.nl/mdo/oai", Set:"DTS", MetadataPrefix:"dcx",
+		From: "2012-09-06T014:00:00.000Z",
+	}).HarvestRecords(func (record *oai.OAIRecord) {
+		fmt.Printf("%s\n\n", record.Metadata.Body[0:500])
+	})
+}
+```
+
+
+Demo sources
+---
+Sources for the demo's can be found in the bin dir
 
 Prerequisites
 ---
@@ -24,11 +47,9 @@ $ git clone https://github.com/renevanderark/goharvest.git
 Starting the demo's:
 
 ```sh
-$ go install github.com/renevanderark/goharvest/bin/oai_demo
-$ oai_demo
-$ go install github.com/renevanderark/goharvest/bin/oai_harvest_demo1
-$ oai_harvest_demo1
-$ go install github.com/renevanderark/goharvest/bin/oai_harvest_demo2
-$ oai_harvest_demo2
+$ go run $GOPATH/src/github.com/renevanderark/goharvest/bin/oai_demo/main.go
+$ go run $GOPATH/src/github.com/renevanderark/goharvest/bin/oai_harvest_demo1/main.go
+$ go run $GOPATH/src/github.com/renevanderark/goharvest/bin/oai_harvest_demo2/main.go
+$ go run $GOPATH/src/github.com/renevanderark/goharvest/bin/hello_oai/main.go
 ```
 
