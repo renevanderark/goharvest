@@ -1,15 +1,3 @@
-oai
-======
-
-First steps into parallel OAI scrape lib. TODO:
-- support Identify verb
-- human readable formatter for OAIResponse struct 
-- support channels / examples for channels
-
-
-Example
-----
-```go
 package main
 
 import (
@@ -105,4 +93,3 @@ func main() {
 	waitForKey()
 	req.Harvest(dump)
 }
-```

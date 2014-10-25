@@ -1,13 +1,9 @@
-// Data structures for the OAI-PMH protocol defines:
-// OAIRequest to represent a request URL and querystring to the OAI service
-// OAIResponse and child fields for marshalling the XML responses
-
+// Data structure for the OAI-PMH protocol responses:
 package oai
 
-// Represents a request URL to an OAI-PMH service
-type OAIRequest struct {
-	BaseUrl, Set, MetadataPrefix, Verb, Identifier, ResumptionToken, From, Until string
-}
+import (
+	"fmt"
+)
 
 type OAIHeader struct {
 	Status string `xml:"status,attr"`
@@ -66,14 +62,14 @@ type ListMetadataFormats struct {
 	MetadataFormat []MetadataFormat `xml:"metadataFormat"`
 }
 
-type SetDescription struct {
+type Description struct {
 	Body []byte `xml:",innerxml"`
 }
 
 type Set struct {
 	SetSpec string `xml:"setSpec"`
 	SetName string `xml:"setName"`
-	SetDescription SetDescription `xml:"setDescription"`
+	SetDescription Description `xml:"setDescription"`
 
 }
 
@@ -81,15 +77,37 @@ type ListSets struct {
 	Set []Set `xml:"set"`
 }
 
+type Identify struct {
+	RepositoryName string `xml:"repositoryName"`
+	BaseURL string `xml:"baseURL"`
+	ProtocolVersion string `xml:"protocolVersion"`
+	AdminEmail []string `xml:"adminEmail"`
+	EarliestDatestamp string `xml:"earliestDatestamp"`
+	DeletedRecord string `xml:"deletedRecord"`
+	Granularity string `xml:"granularity"`
+	Description []Description `xml:"description"`
+}
+
 // The struct representation of an OAI-PMH XML response
 type OAIResponse struct {
 	ResponseDate string `xml:"responseDate"`
 	Request RequestNode `xml:"request"`
 	Error OAIError `xml:"error"`
-	ListIdentifiers ListIdentifiers `xml:"ListIdentifiers"`
-	ListRecords ListRecords `xml:"ListRecords"`
-	GetRecord GetRecord `xml:"GetRecord"`
+
+	Identify Identify `xml:"Identify"`
 	ListMetadataFormats ListMetadataFormats `xml:"ListMetadataFormats"`
 	ListSets ListSets `xml:"ListSets"`
+	GetRecord GetRecord `xml:"GetRecord"`
+	ListIdentifiers ListIdentifiers `xml:"ListIdentifiers"`
+	ListRecords ListRecords `xml:"ListRecords"`
 }
 
+
+// Formatter for Metadata content
+func (md Metadata) GoString() string { return fmt.Sprintf("%s", md.Body); }
+
+// Formatter for Description content
+func (desc Description) GoString() string { return fmt.Sprintf("%s", desc.Body); }
+
+// Formatter for About content
+func (ab About) GoString() string { return fmt.Sprintf("%s", ab.Body); }
