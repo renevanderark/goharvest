@@ -51,5 +51,6 @@ $ go run $GOPATH/src/github.com/renevanderark/goharvest/bin/oai_demo/main.go
 $ go run $GOPATH/src/github.com/renevanderark/goharvest/bin/oai_harvest_demo1/main.go
 $ go run $GOPATH/src/github.com/renevanderark/goharvest/bin/oai_harvest_demo2/main.go
 $ go run $GOPATH/src/github.com/renevanderark/goharvest/bin/hello_oai/main.go
+$ go run $GOPATH/src/github.com/renevanderark/goharvest/bin/channel_harvest_demo1/main.go
 ```
 
