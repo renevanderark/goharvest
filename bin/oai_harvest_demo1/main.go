@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/renevanderark/goharvest/oai"
 	"fmt"
+	"github.com/renevanderark/goharvest/oai"
 )
 
 // Dump a snippet of the Record metadata
@@ -13,11 +13,11 @@ func dump(resp *oai.OAIResponse) {
 // Performs a GetRecord request for the record identified by the OAI Header
 func getRecord(hdr *oai.OAIHeader) {
 	req := &oai.OAIRequest{
-		BaseUrl: "http://services.kb.nl/mdo/oai", 
-		Set: "DTS",
+		BaseUrl:        "http://services.kb.nl/mdo/oai",
+		Set:            "DTS",
 		MetadataPrefix: "dcx",
-		Verb: "GetRecord",
-		Identifier: hdr.Identifier,
+		Verb:           "GetRecord",
+		Identifier:     hdr.Identifier,
 	}
 
 	req.Harvest(dump)
@@ -26,14 +26,14 @@ func getRecord(hdr *oai.OAIHeader) {
 // Demonstrates harvesting using the ListIdentifiers verb with HarvestIdentifiers
 func main() {
 	req := &oai.OAIRequest{
-		BaseUrl: "http://services.kb.nl/mdo/oai", 
-		Set: "DTS",
+		BaseUrl:        "http://services.kb.nl/mdo/oai",
+		Set:            "DTS",
 		MetadataPrefix: "dcx",
-		Verb: "ListIdentifiers",
-		From: "2012-09-06T014:00:00.000Z",
+		Verb:           "ListIdentifiers",
+		From:           "2012-09-06T014:00:00.000Z",
 	}
 
 	// HarvestIdentifiers passes each individual OAI header to the getRecord
-	// function as an OAIHeader object 
+	// function as an OAIHeader object
 	req.HarvestIdentifiers(getRecord)
 }

@@ -2,18 +2,22 @@
 package oai
 
 import (
-	"io/ioutil"
 	"encoding/xml"
+	"io/ioutil"
 )
 
 // Reads OAI PMH response XML from a file
 func FromFile(filename string) (oaiResponse *OAIResponse) {
 	bytes, err := ioutil.ReadFile(filename)
-	if err != nil { panic(err) }
+	if err != nil {
+		panic(err)
+	}
 
-	// Unmarshall all the data 
+	// Unmarshall all the data
 	err = xml.Unmarshal(bytes, &oaiResponse)
-	if err != nil { panic(err) }
+	if err != nil {
+		panic(err)
+	}
 
 	return
 }

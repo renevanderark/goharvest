@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/renevanderark/goharvest/oai"
 	"fmt"
+	"github.com/renevanderark/goharvest/oai"
 )
 
 // Dump a snippet of the Record metadata
@@ -13,13 +13,13 @@ func dump(record *oai.OAIRecord) {
 // Demonstrates harvesting using the ListRecords verb with HarvestRecords
 func main() {
 	req := &oai.OAIRequest{
-		BaseUrl: "http://services.kb.nl/mdo/oai", 
-		Set: "DTS",
+		BaseUrl:        "http://services.kb.nl/mdo/oai",
+		Set:            "DTS",
 		MetadataPrefix: "dcx",
-		Verb: "ListRecords",
-		From: "2012-09-06T014:00:00.000Z",
+		Verb:           "ListRecords",
+		From:           "2012-09-06T014:00:00.000Z",
 	}
 	// HarvestRecords passes each individual metadata record to the dump
-	// function as a OAIRecord object 
+	// function as a OAIRecord object
 	req.HarvestRecords(dump)
 }

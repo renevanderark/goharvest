@@ -4,19 +4,22 @@ package oai
 func (resp *OAIResponse) ResumptionToken() (hasResumptionToken bool, resumptionToken string) {
 	hasResumptionToken = false
 	resumptionToken = ""
-	if resp == nil { return }
+	if resp == nil {
+		return
+	}
 
 	// First attempt to obtain a resumption token from a ListIdentifiers response
-	resumptionToken =  resp.ListIdentifiers.ResumptionToken
+	resumptionToken = resp.ListIdentifiers.ResumptionToken
 
 	// Then attempt to obtain a resumption token from a ListRecords response
 	if resumptionToken == "" {
-		resumptionToken =  resp.ListRecords.ResumptionToken
+		resumptionToken = resp.ListRecords.ResumptionToken
 	}
 
 	// If a non-empty resumption token turned up it can safely inferred that...
-	if resumptionToken != "" { hasResumptionToken = true }
+	if resumptionToken != "" {
+		hasResumptionToken = true
+	}
 
 	return
 }
-

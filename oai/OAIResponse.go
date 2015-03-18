@@ -6,10 +6,10 @@ import (
 )
 
 type OAIHeader struct {
-	Status string `xml:"status,attr"`
-	Identifier string `xml:"identifier"`
-	DateStamp string `xml:"datestamp"`
-	SetSpec []string `xml:"setSpec"`
+	Status     string   `xml:"status,attr"`
+	Identifier string   `xml:"identifier"`
+	DateStamp  string   `xml:"datestamp"`
+	SetSpec    []string `xml:"setSpec"`
 }
 
 type Metadata struct {
@@ -21,20 +21,19 @@ type About struct {
 }
 
 type OAIRecord struct {
-	Header OAIHeader `xml:"header"`
-	Metadata Metadata `xml:"metadata"`
-	About About `xml:"about"`
+	Header   OAIHeader `xml:"header"`
+	Metadata Metadata  `xml:"metadata"`
+	About    About     `xml:"about"`
 }
 
-
 type ListIdentifiers struct {
-	Headers []OAIHeader `xml:"header"`
-	ResumptionToken string `xml:"resumptionToken"`
+	Headers         []OAIHeader `xml:"header"`
+	ResumptionToken string      `xml:"resumptionToken"`
 }
 
 type ListRecords struct {
-	Records []OAIRecord `xml:"record"`
-	ResumptionToken string `xml:"resumptionToken"`
+	Records         []OAIRecord `xml:"record"`
+	ResumptionToken string      `xml:"resumptionToken"`
 }
 
 type GetRecord struct {
@@ -42,19 +41,19 @@ type GetRecord struct {
 }
 
 type RequestNode struct {
-	Verb string `xml:"verb,attr"`
-	Set string `xml:"set,attr"`
+	Verb           string `xml:"verb,attr"`
+	Set            string `xml:"set,attr"`
 	MetadataPrefix string `xml:"metadataPrefix,attr"`
 }
 
 type OAIError struct {
-	Code string `xml:"code,attr"`
+	Code    string `xml:"code,attr"`
 	Message string `xml:",chardata"`
 }
 
 type MetadataFormat struct {
-	MetadataPrefix string `xml:"metadataPrefix"`
-	Schema string `xml:"schema"`
+	MetadataPrefix    string `xml:"metadataPrefix"`
+	Schema            string `xml:"schema"`
 	MetadataNamespace string `xml:"metadataNamespace"`
 }
 
@@ -67,10 +66,9 @@ type Description struct {
 }
 
 type Set struct {
-	SetSpec string `xml:"setSpec"`
-	SetName string `xml:"setName"`
+	SetSpec        string      `xml:"setSpec"`
+	SetName        string      `xml:"setName"`
 	SetDescription Description `xml:"setDescription"`
-
 }
 
 type ListSets struct {
@@ -78,36 +76,35 @@ type ListSets struct {
 }
 
 type Identify struct {
-	RepositoryName string `xml:"repositoryName"`
-	BaseURL string `xml:"baseURL"`
-	ProtocolVersion string `xml:"protocolVersion"`
-	AdminEmail []string `xml:"adminEmail"`
-	EarliestDatestamp string `xml:"earliestDatestamp"`
-	DeletedRecord string `xml:"deletedRecord"`
-	Granularity string `xml:"granularity"`
-	Description []Description `xml:"description"`
+	RepositoryName    string        `xml:"repositoryName"`
+	BaseURL           string        `xml:"baseURL"`
+	ProtocolVersion   string        `xml:"protocolVersion"`
+	AdminEmail        []string      `xml:"adminEmail"`
+	EarliestDatestamp string        `xml:"earliestDatestamp"`
+	DeletedRecord     string        `xml:"deletedRecord"`
+	Granularity       string        `xml:"granularity"`
+	Description       []Description `xml:"description"`
 }
 
 // The struct representation of an OAI-PMH XML response
 type OAIResponse struct {
-	ResponseDate string `xml:"responseDate"`
-	Request RequestNode `xml:"request"`
-	Error OAIError `xml:"error"`
+	ResponseDate string      `xml:"responseDate"`
+	Request      RequestNode `xml:"request"`
+	Error        OAIError    `xml:"error"`
 
-	Identify Identify `xml:"Identify"`
+	Identify            Identify            `xml:"Identify"`
 	ListMetadataFormats ListMetadataFormats `xml:"ListMetadataFormats"`
-	ListSets ListSets `xml:"ListSets"`
-	GetRecord GetRecord `xml:"GetRecord"`
-	ListIdentifiers ListIdentifiers `xml:"ListIdentifiers"`
-	ListRecords ListRecords `xml:"ListRecords"`
+	ListSets            ListSets            `xml:"ListSets"`
+	GetRecord           GetRecord           `xml:"GetRecord"`
+	ListIdentifiers     ListIdentifiers     `xml:"ListIdentifiers"`
+	ListRecords         ListRecords         `xml:"ListRecords"`
 }
 
-
 // Formatter for Metadata content
-func (md Metadata) GoString() string { return fmt.Sprintf("%s", md.Body); }
+func (md Metadata) GoString() string { return fmt.Sprintf("%s", md.Body) }
 
 // Formatter for Description content
-func (desc Description) GoString() string { return fmt.Sprintf("%s", desc.Body); }
+func (desc Description) GoString() string { return fmt.Sprintf("%s", desc.Body) }
 
 // Formatter for About content
-func (ab About) GoString() string { return fmt.Sprintf("%s", ab.Body); }
+func (ab About) GoString() string { return fmt.Sprintf("%s", ab.Body) }

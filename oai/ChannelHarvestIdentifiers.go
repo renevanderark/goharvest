@@ -1,6 +1,5 @@
 package oai
 
-
 // Harvest the identifiers of a complete OAI set
 // send a reference of each OAIHeader to a channel
 func (req *OAIRequest) ChannelHarvestIdentifiers(channels []chan *OAIHeader) {
@@ -11,7 +10,9 @@ func (req *OAIRequest) ChannelHarvestIdentifiers(channels []chan *OAIHeader) {
 		for _, header := range headers {
 			channels[i] <- &header
 			i++
-			if i == len(channels) { i = 0 }
+			if i == len(channels) {
+				i = 0
+			}
 		}
 
 		// If there is no more resumption token, send nil to all

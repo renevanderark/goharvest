@@ -14,41 +14,40 @@ func (req *OAIRequest) String() string {
 	qs := []string{}
 
 	if req.Verb != "" {
-		part = []string{"verb", req.Verb,}
+		part = []string{"verb", req.Verb}
 		qs = append(qs, strings.Join(part, "="))
 	}
 
 	if req.Set != "" {
-		part = []string{"set", req.Set,}
+		part = []string{"set", req.Set}
 		qs = append(qs, strings.Join(part, "="))
 	}
 
 	if req.MetadataPrefix != "" {
-		part = []string{"metadataPrefix", req.MetadataPrefix,}
+		part = []string{"metadataPrefix", req.MetadataPrefix}
 		qs = append(qs, strings.Join(part, "="))
 	}
 
 	if req.ResumptionToken != "" {
-		part = []string{"resumptionToken", req.ResumptionToken,}
+		part = []string{"resumptionToken", req.ResumptionToken}
 		qs = append(qs, strings.Join(part, "="))
 	}
 
 	if req.Identifier != "" {
-		part = []string{"identifier", req.Identifier,}
+		part = []string{"identifier", req.Identifier}
 		qs = append(qs, strings.Join(part, "="))
 	}
 
 	if req.From != "" {
-		part = []string{"from", req.From,}
+		part = []string{"from", req.From}
 		qs = append(qs, strings.Join(part, "="))
 
 	}
 
 	if req.Until != "" {
-		part = []string{"until",req.Until,}
+		part = []string{"until", req.Until}
 		qs = append(qs, strings.Join(part, "="))
 	}
 
-	return strings.Join([]string{req.BaseUrl, "?",strings.Join(qs, "&"),}, "")
+	return strings.Join([]string{req.BaseUrl, "?", strings.Join(qs, "&")}, "")
 }
-
