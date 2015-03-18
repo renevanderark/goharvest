@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-type OAIHeader struct {
+type Header struct {
 	Status     string   `xml:"status,attr"`
 	Identifier string   `xml:"identifier"`
 	DateStamp  string   `xml:"datestamp"`
@@ -20,24 +20,24 @@ type About struct {
 	Body []byte `xml:",innerxml"`
 }
 
-type OAIRecord struct {
-	Header   OAIHeader `xml:"header"`
-	Metadata Metadata  `xml:"metadata"`
-	About    About     `xml:"about"`
+type Record struct {
+	Header   Header   `xml:"header"`
+	Metadata Metadata `xml:"metadata"`
+	About    About    `xml:"about"`
 }
 
 type ListIdentifiers struct {
-	Headers         []OAIHeader `xml:"header"`
-	ResumptionToken string      `xml:"resumptionToken"`
+	Headers         []Header `xml:"header"`
+	ResumptionToken string   `xml:"resumptionToken"`
 }
 
 type ListRecords struct {
-	Records         []OAIRecord `xml:"record"`
-	ResumptionToken string      `xml:"resumptionToken"`
+	Records         []Record `xml:"record"`
+	ResumptionToken string   `xml:"resumptionToken"`
 }
 
 type GetRecord struct {
-	Record OAIRecord `xml:"record"`
+	Record Record `xml:"record"`
 }
 
 type RequestNode struct {
@@ -87,7 +87,7 @@ type Identify struct {
 }
 
 // The struct representation of an OAI-PMH XML response
-type OAIResponse struct {
+type Response struct {
 	ResponseDate string      `xml:"responseDate"`
 	Request      RequestNode `xml:"request"`
 	Error        OAIError    `xml:"error"`

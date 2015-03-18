@@ -14,7 +14,7 @@ func waitForKey() {
 }
 
 // Print the OAI Response object to stdout
-func dump(resp *oai.OAIResponse) {
+func dump(resp *oai.Response) {
 	_, resTok := resp.ResumptionToken()
 	fmt.Printf("%#v\n", resp)
 
@@ -26,7 +26,7 @@ func dump(resp *oai.OAIResponse) {
 
 func main() {
 	// Perform Identify, pass dump func as callback
-	req := &oai.OAIRequest{
+	req := &oai.Request{
 		BaseUrl: "http://services.kb.nl/mdo/oai",
 		Verb:    "Identify",
 	}
@@ -35,7 +35,7 @@ func main() {
 	req.Harvest(dump)
 
 	// Perform ListSets, pass dump func as callback
-	req = &oai.OAIRequest{
+	req = &oai.Request{
 		BaseUrl: "http://services.kb.nl/mdo/oai",
 		Verb:    "ListSets",
 	}
@@ -44,7 +44,7 @@ func main() {
 	req.Harvest(dump)
 
 	// Perform ListMetadataFormats, pass dump func as callback
-	req = &oai.OAIRequest{
+	req = &oai.Request{
 		BaseUrl: "http://memory.loc.gov/cgi-bin/oai2_0",
 		Verb:    "ListMetadataFormats",
 	}
@@ -53,7 +53,7 @@ func main() {
 	req.Harvest(dump)
 
 	// Perform GetRecord, pass dump func as callback
-	req = &oai.OAIRequest{
+	req = &oai.Request{
 		BaseUrl:        "http://services.kb.nl/mdo/oai",
 		Set:            "DTS",
 		MetadataPrefix: "dcx",
@@ -66,8 +66,8 @@ func main() {
 
 	// Perform ListIdentifiers, pass dump func as callback:
 	// req.Harvest will iterate until out of resumption tokens
-	// at each iteration dump will be called with an *oai.OAIResponse
-	req = &oai.OAIRequest{
+	// at each iteration dump will be called with an *oai.Response
+	req = &oai.Request{
 		BaseUrl:        "http://services.kb.nl/mdo/oai",
 		Set:            "DTS",
 		MetadataPrefix: "dcx",
@@ -80,8 +80,8 @@ func main() {
 
 	// Perform ListRecords, pass dump func as callback:
 	// req.Harvest will iterate until out of resumption tokens
-	// at each iteration dump will be called with an *oai.OAIResponse
-	req = &oai.OAIRequest{
+	// at each iteration dump will be called with an *oai.Response
+	req = &oai.Request{
 		BaseUrl:        "http://memory.loc.gov/cgi-bin/oai2_0",
 		Set:            "bbc",
 		MetadataPrefix: "oai_dc",

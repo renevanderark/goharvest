@@ -8,15 +8,15 @@ import (
 
 type Digest struct {
 	receivingChannels int
-	baseRequest       *oai.OAIRequest
+	baseRequest       *oai.Request
 }
 
-func dump(resp *oai.OAIResponse) {
+func dump(resp *oai.Response) {
 	fmt.Printf("%s\n\n", resp.GetRecord.Record.Metadata.Body[0:1000])
 }
 
 func (digest *Digest) getRecord(identifier string) {
-	req := &oai.OAIRequest{
+	req := &oai.Request{
 		BaseUrl:        digest.baseRequest.BaseUrl,
 		MetadataPrefix: digest.baseRequest.MetadataPrefix,
 		Verb:           "GetRecord",
@@ -26,7 +26,7 @@ func (digest *Digest) getRecord(identifier string) {
 	req.Harvest(dump)
 }
 
-func (digest *Digest) digestIdentifiers(c chan *oai.OAIHeader) {
+func (digest *Digest) digestIdentifiers(c chan *oai.Header) {
 	hdr := <-c
 
 	if hdr != nil {
@@ -39,24 +39,24 @@ func (digest *Digest) digestIdentifiers(c chan *oai.OAIHeader) {
 }
 
 func main() {
-	req := &oai.OAIRequest{
+	req := &oai.Request{
 		BaseUrl:        "http://services.kb.nl/mdo/oai",
 		Set:            "DTS",
 		MetadataPrefix: "didl",
 		From:           "2012-09-06T014:00:00.000Z",
 	}
-	digestChannels := []chan *oai.OAIHeader{}
+	digestChannels := []chan *oai.Header{}
 
 	digest := &Digest{
 		receivingChannels: 16,
-		baseRequest: &oai.OAIRequest{
+		baseRequest: &oai.Request{
 			BaseUrl:        "http://services.kb.nl/mdo/oai",
 			MetadataPrefix: "didl",
 		},
 	}
 
 	for i := 0; i < digest.receivingChannels; i++ {
-		digestChannels = append(digestChannels, make(chan *oai.OAIHeader))
+		digestChannels = append(digestChannels, make(chan *oai.Header))
 		go digest.digestIdentifiers(digestChannels[i])
 	}
 

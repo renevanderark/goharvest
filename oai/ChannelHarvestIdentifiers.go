@@ -1,10 +1,10 @@
 package oai
 
 // Harvest the identifiers of a complete OAI set
-// send a reference of each OAIHeader to a channel
-func (req *OAIRequest) ChannelHarvestIdentifiers(channels []chan *OAIHeader) {
+// send a reference of each Header to a channel
+func (req *Request) ChannelHarvestIdentifiers(channels []chan *Header) {
 	req.Verb = "ListIdentifiers"
-	req.Harvest(func(resp *OAIResponse) {
+	req.Harvest(func(resp *Response) {
 		headers := resp.ListIdentifiers.Headers
 		i := 0
 		for _, header := range headers {

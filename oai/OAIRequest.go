@@ -4,12 +4,12 @@ package oai
 import "strings"
 
 // Represents a request URL and query string to an OAI-PMH service
-type OAIRequest struct {
+type Request struct {
 	BaseUrl, Set, MetadataPrefix, Verb, Identifier, ResumptionToken, From, Until string
 }
 
 // String representation of the OAI Request
-func (req *OAIRequest) String() string {
+func (req *Request) String() string {
 	var part []string
 	qs := []string{}
 

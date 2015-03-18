@@ -1,7 +1,7 @@
 package oai
 
-// Determine the resumption token in this OAIResponse
-func (resp *OAIResponse) ResumptionToken() (hasResumptionToken bool, resumptionToken string) {
+// Determine the resumption token in this Response
+func (resp *Response) ResumptionToken() (hasResumptionToken bool, resumptionToken string) {
 	hasResumptionToken = false
 	resumptionToken = ""
 	if resp == nil {

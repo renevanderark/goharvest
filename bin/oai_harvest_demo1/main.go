@@ -6,13 +6,13 @@ import (
 )
 
 // Dump a snippet of the Record metadata
-func dump(resp *oai.OAIResponse) {
+func dump(resp *oai.Response) {
 	fmt.Printf("%s\n\n", resp.GetRecord.Record.Metadata.Body[0:500])
 }
 
 // Performs a GetRecord request for the record identified by the OAI Header
-func getRecord(hdr *oai.OAIHeader) {
-	req := &oai.OAIRequest{
+func getRecord(hdr *oai.Header) {
+	req := &oai.Request{
 		BaseUrl:        "http://services.kb.nl/mdo/oai",
 		Set:            "DTS",
 		MetadataPrefix: "dcx",
@@ -25,7 +25,7 @@ func getRecord(hdr *oai.OAIHeader) {
 
 // Demonstrates harvesting using the ListIdentifiers verb with HarvestIdentifiers
 func main() {
-	req := &oai.OAIRequest{
+	req := &oai.Request{
 		BaseUrl:        "http://services.kb.nl/mdo/oai",
 		Set:            "DTS",
 		MetadataPrefix: "dcx",
@@ -34,6 +34,6 @@ func main() {
 	}
 
 	// HarvestIdentifiers passes each individual OAI header to the getRecord
-	// function as an OAIHeader object
+	// function as an Header object
 	req.HarvestIdentifiers(getRecord)
 }

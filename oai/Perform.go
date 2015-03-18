@@ -8,7 +8,7 @@ import (
 
 // Perform an HTTP GET request using the OAI Requests fields
 // and return an OAI Response reference
-func (req *OAIRequest) Perform() (oaiResponse *OAIResponse) {
+func (req *Request) Perform() (oaiResponse *Response) {
 	// Perform the GET request
 	resp, err := http.Get(req.String())
 	if err != nil {
