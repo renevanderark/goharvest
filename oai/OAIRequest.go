@@ -10,44 +10,21 @@ type Request struct {
 
 // String representation of the OAI Request
 func (req *Request) String() string {
-	var part []string
 	qs := []string{}
 
-	if req.Verb != "" {
-		part = []string{"verb", req.Verb}
-		qs = append(qs, strings.Join(part, "="))
+	add := func(name, value string) {
+		if value != "" {
+			qs = append(qs, name + "=" + value)
+		}
 	}
 
-	if req.Set != "" {
-		part = []string{"set", req.Set}
-		qs = append(qs, strings.Join(part, "="))
-	}
-
-	if req.MetadataPrefix != "" {
-		part = []string{"metadataPrefix", req.MetadataPrefix}
-		qs = append(qs, strings.Join(part, "="))
-	}
-
-	if req.ResumptionToken != "" {
-		part = []string{"resumptionToken", req.ResumptionToken}
-		qs = append(qs, strings.Join(part, "="))
-	}
-
-	if req.Identifier != "" {
-		part = []string{"identifier", req.Identifier}
-		qs = append(qs, strings.Join(part, "="))
-	}
-
-	if req.From != "" {
-		part = []string{"from", req.From}
-		qs = append(qs, strings.Join(part, "="))
-
-	}
-
-	if req.Until != "" {
-		part = []string{"until", req.Until}
-		qs = append(qs, strings.Join(part, "="))
-	}
+	add("verb", req.Verb)
+	add("set", req.Set)
+	add("metadataPrefix", req.MetadataPrefix)
+	add("resumptionToken", req.ResumptionToken)
+	add("identifier", req.Identifier)
+	add("from", req.From)
+	add("until", req.Until)
 
 	return strings.Join([]string{req.BaseUrl, "?", strings.Join(qs, "&")}, "")
 }
