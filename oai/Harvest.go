@@ -1,9 +1,8 @@
 package oai
 
-
 // Perform a harvest of a complete OAI set, or simply one request
 // call the batchCallback function argument with the OAI responses
-func (req *OAIRequest) Harvest(batchCallback func(*OAIResponse)) {
+func (req *Request) Harvest(batchCallback func(*Response)) {
 	// Use Perform to get the OAI response
 	oaiResponse := req.Perform()
 
@@ -22,4 +21,3 @@ func (req *OAIRequest) Harvest(batchCallback func(*OAIResponse)) {
 		req.Harvest(batchCallback)
 	}
 }
-

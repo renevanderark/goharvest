@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/renevanderark/goharvest/oai"
-	"fmt"
 	"bufio"
+	"fmt"
+	"github.com/renevanderark/goharvest/oai"
 	"os"
 )
 
@@ -13,9 +13,8 @@ func waitForKey() {
 	_, _ = reader.ReadString('\n')
 }
 
-
 // Print the OAI Response object to stdout
-func dump(resp *oai.OAIResponse) {
+func dump(resp *oai.Response) {
 	_, resTok := resp.ResumptionToken()
 	fmt.Printf("%#v\n", resp)
 
@@ -27,39 +26,39 @@ func dump(resp *oai.OAIResponse) {
 
 func main() {
 	// Perform Identify, pass dump func as callback
-	req := &oai.OAIRequest{
+	req := &oai.Request{
 		BaseUrl: "http://services.kb.nl/mdo/oai",
-		Verb: "Identify",
+		Verb:    "Identify",
 	}
 	fmt.Printf("Identify:\n%s", req)
 	waitForKey()
 	req.Harvest(dump)
 
 	// Perform ListSets, pass dump func as callback
-	req = &oai.OAIRequest{
+	req = &oai.Request{
 		BaseUrl: "http://services.kb.nl/mdo/oai",
-		Verb: "ListSets",
+		Verb:    "ListSets",
 	}
 	fmt.Printf("ListSets:\n%s", req)
 	waitForKey()
 	req.Harvest(dump)
 
 	// Perform ListMetadataFormats, pass dump func as callback
-	req = &oai.OAIRequest{
+	req = &oai.Request{
 		BaseUrl: "http://memory.loc.gov/cgi-bin/oai2_0",
-		Verb: "ListMetadataFormats",
+		Verb:    "ListMetadataFormats",
 	}
 	fmt.Printf("ListMetadataFormats:\n%s", req)
 	waitForKey()
 	req.Harvest(dump)
 
 	// Perform GetRecord, pass dump func as callback
-	req = &oai.OAIRequest{
-		BaseUrl: "http://services.kb.nl/mdo/oai", 
-		Set: "DTS",
+	req = &oai.Request{
+		BaseUrl:        "http://services.kb.nl/mdo/oai",
+		Set:            "DTS",
 		MetadataPrefix: "dcx",
-		Verb: "GetRecord",
-		Identifier: "DTS:dts:7929:mpeg21",
+		Verb:           "GetRecord",
+		Identifier:     "DTS:dts:7929:mpeg21",
 	}
 	fmt.Printf("GetRecord: \n%s", req)
 	waitForKey()
@@ -67,13 +66,13 @@ func main() {
 
 	// Perform ListIdentifiers, pass dump func as callback:
 	// req.Harvest will iterate until out of resumption tokens
-	// at each iteration dump will be called with an *oai.OAIResponse
-	req = &oai.OAIRequest{
-		BaseUrl: "http://services.kb.nl/mdo/oai", 
-		Set: "DTS",
+	// at each iteration dump will be called with an *oai.Response
+	req = &oai.Request{
+		BaseUrl:        "http://services.kb.nl/mdo/oai",
+		Set:            "DTS",
 		MetadataPrefix: "dcx",
-		Verb: "ListIdentifiers",
-		From: "2012-09-06T014:00:00.000Z",
+		Verb:           "ListIdentifiers",
+		From:           "2012-09-06T014:00:00.000Z",
 	}
 	fmt.Printf("ListIdentifiers:\n%s", req)
 	waitForKey()
@@ -81,13 +80,13 @@ func main() {
 
 	// Perform ListRecords, pass dump func as callback:
 	// req.Harvest will iterate until out of resumption tokens
-	// at each iteration dump will be called with an *oai.OAIResponse
-	req = &oai.OAIRequest{
-		BaseUrl: "http://memory.loc.gov/cgi-bin/oai2_0", 
-		Set: "bbc",
+	// at each iteration dump will be called with an *oai.Response
+	req = &oai.Request{
+		BaseUrl:        "http://memory.loc.gov/cgi-bin/oai2_0",
+		Set:            "bbc",
 		MetadataPrefix: "oai_dc",
-		Verb: "ListRecords",
-		From: "2010-07-19T20:01:36Z",
+		Verb:           "ListRecords",
+		From:           "2010-07-19T20:01:36Z",
 	}
 	fmt.Printf("ListRecords:\n%s", req)
 	waitForKey()
