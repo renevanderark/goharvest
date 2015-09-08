@@ -14,7 +14,7 @@ func (req *Request) String() string {
 
 	add := func(name, value string) {
 		if value != "" {
-			qs = append(qs, name + "=" + value)
+			qs = append(qs, name+"="+value)
 		}
 	}
 
