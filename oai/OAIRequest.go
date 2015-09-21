@@ -5,7 +5,14 @@ import "strings"
 
 // Represents a request URL and query string to an OAI-PMH service
 type Request struct {
-	BaseUrl, Set, MetadataPrefix, Verb, Identifier, ResumptionToken, From, Until string
+	BaseUrl         string
+	Set             string
+	MetadataPrefix  string
+	Verb            string
+	Identifier      string
+	ResumptionToken string
+	From            string
+	Until           string
 }
 
 // String representation of the OAI Request

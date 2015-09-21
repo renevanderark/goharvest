@@ -1,6 +1,6 @@
 package oai
 
-// Harvest the identifiers of a complete OAI set
+// HarvestIdentifiers arvest the identifiers of a complete OAI set
 // call the identifier callback function for each Header
 func (req *Request) HarvestIdentifiers(callback func(*Header)) {
 	req.Verb = "ListIdentifiers"
