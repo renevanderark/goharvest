@@ -7,9 +7,9 @@ import (
 	"strings"
 )
 
-// Represents a request URL and query string to an OAI-PMH service
+// Request represents a request URL and query string to an OAI-PMH service
 type Request struct {
-	BaseUrl         string
+	BaseURL         string
 	Set             string
 	MetadataPrefix  string
 	Verb            string
@@ -19,32 +19,34 @@ type Request struct {
 	Until           string
 }
 
-// String representation of the OAI Request
-func (req *Request) String() string {
-	qs := []string{}
+// GetFullURL represents the OAI Request in a string format
+func (request *Request) GetFullURL() string {
+	array := []string{}
 
 	add := func(name, value string) {
 		if value != "" {
-			qs = append(qs, name+"="+value)
+			array = append(array, name+"="+value)
 		}
 	}
 
-	add("verb", req.Verb)
-	add("set", req.Set)
-	add("metadataPrefix", req.MetadataPrefix)
-	add("resumptionToken", req.ResumptionToken)
-	add("identifier", req.Identifier)
-	add("from", req.From)
-	add("until", req.Until)
+	add("verb", request.Verb)
+	add("set", request.Set)
+	add("metadataPrefix", request.MetadataPrefix)
+	add("resumptionToken", request.ResumptionToken)
+	add("identifier", request.Identifier)
+	add("from", request.From)
+	add("until", request.Until)
 
-	return strings.Join([]string{req.BaseUrl, "?", strings.Join(qs, "&")}, "")
+	URL := strings.Join([]string{request.BaseURL, "?", strings.Join(array, "&")}, "")
+
+	return URL
 }
 
 // HarvestIdentifiers arvest the identifiers of a complete OAI set
 // call the identifier callback function for each Header
-func (req *Request) HarvestIdentifiers(callback func(*Header)) {
-	req.Verb = "ListIdentifiers"
-	req.Harvest(func(resp *Response) {
+func (request *Request) HarvestIdentifiers(callback func(*Header)) {
+	request.Verb = "ListIdentifiers"
+	request.Harvest(func(resp *Response) {
 		headers := resp.ListIdentifiers.Headers
 		for _, header := range headers {
 			callback(&header)
@@ -54,9 +56,9 @@ func (req *Request) HarvestIdentifiers(callback func(*Header)) {
 
 // HarvestRecords harvest the identifiers of a complete OAI set
 // call the identifier callback function for each Header
-func (req *Request) HarvestRecords(callback func(*Record)) {
-	req.Verb = "ListRecords"
-	req.Harvest(func(resp *Response) {
+func (request *Request) HarvestRecords(callback func(*Record)) {
+	request.Verb = "ListRecords"
+	request.Harvest(func(resp *Response) {
 		records := resp.ListRecords.Records
 		for _, record := range records {
 			callback(&record)
@@ -66,9 +68,9 @@ func (req *Request) HarvestRecords(callback func(*Record)) {
 
 // ChannelHarvestIdentifiers harvest the identifiers of a complete OAI set
 // send a reference of each Header to a channel
-func (req *Request) ChannelHarvestIdentifiers(channels []chan *Header) {
-	req.Verb = "ListIdentifiers"
-	req.Harvest(func(resp *Response) {
+func (request *Request) ChannelHarvestIdentifiers(channels []chan *Header) {
+	request.Verb = "ListIdentifiers"
+	request.Harvest(func(resp *Response) {
 		headers := resp.ListIdentifiers.Headers
 		i := 0
 		for _, header := range headers {
@@ -92,9 +94,9 @@ func (req *Request) ChannelHarvestIdentifiers(channels []chan *Header) {
 
 // Harvest perform a harvest of a complete OAI set, or simply one request
 // call the batchCallback function argument with the OAI responses
-func (req *Request) Harvest(batchCallback func(*Response)) {
+func (request *Request) Harvest(batchCallback func(*Response)) {
 	// Use Perform to get the OAI response
-	oaiResponse := req.Perform()
+	oaiResponse := request.Perform()
 
 	// Execute the callback function with the response
 	batchCallback(oaiResponse)
@@ -104,19 +106,19 @@ func (req *Request) Harvest(batchCallback func(*Response)) {
 
 	// Harvest further if there is a resumption token
 	if hasResumptionToken == true {
-		req.Set = ""
-		req.MetadataPrefix = ""
-		req.From = ""
-		req.ResumptionToken = resumptionToken
-		req.Harvest(batchCallback)
+		request.Set = ""
+		request.MetadataPrefix = ""
+		request.From = ""
+		request.ResumptionToken = resumptionToken
+		request.Harvest(batchCallback)
 	}
 }
 
 // Perform an HTTP GET request using the OAI Requests fields
 // and return an OAI Response reference
-func (req *Request) Perform() (oaiResponse *Response) {
-	// Perform the GET request
-	resp, err := http.Get(req.String())
+func (request *Request) Perform() (oaiResponse *Response) {
+
+	resp, err := http.Get(request.GetFullURL())
 	if err != nil {
 		panic(err)
 	}
@@ -140,7 +142,7 @@ func (req *Request) Perform() (oaiResponse *Response) {
 	return
 }
 
-// Determine the resumption token in this Response
+// ResumptionToken determine the resumption token in this Response
 func (resp *Response) ResumptionToken() (hasResumptionToken bool, resumptionToken string) {
 	hasResumptionToken = false
 	resumptionToken = ""
