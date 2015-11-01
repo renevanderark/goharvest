@@ -1,4 +1,4 @@
-// Data structure for the OAI-PMH protocol request:
+// Package oai Data structure for the OAI-PMH protocol request:
 package oai
 
 import (
@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 )
 
-// Reads OAI PMH response XML from a file
+// FromFile reads OAI PMH response XML from a file
 func FromFile(filename string) (oaiResponse *Response) {
 	bytes, err := ioutil.ReadFile(filename)
 	if err != nil {

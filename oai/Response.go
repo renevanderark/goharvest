@@ -16,9 +16,15 @@ type Metadata struct {
 	Body []byte `xml:",innerxml"`
 }
 
+// Formatter for Metadata content
+func (md Metadata) GoString() string { return fmt.Sprintf("%s", md.Body) }
+
 type About struct {
 	Body []byte `xml:",innerxml"`
 }
+
+// Formatter for About content
+func (ab About) GoString() string { return fmt.Sprintf("%s", ab.Body) }
 
 type Record struct {
 	Header   Header   `xml:"header"`
@@ -65,6 +71,9 @@ type Description struct {
 	Body []byte `xml:",innerxml"`
 }
 
+// Formatter for Description content
+func (desc Description) GoString() string { return fmt.Sprintf("%s", desc.Body) }
+
 type Set struct {
 	SetSpec        string      `xml:"setSpec"`
 	SetName        string      `xml:"setName"`
@@ -99,12 +108,3 @@ type Response struct {
 	ListIdentifiers     ListIdentifiers     `xml:"ListIdentifiers"`
 	ListRecords         ListRecords         `xml:"ListRecords"`
 }
-
-// Formatter for Metadata content
-func (md Metadata) GoString() string { return fmt.Sprintf("%s", md.Body) }
-
-// Formatter for Description content
-func (desc Description) GoString() string { return fmt.Sprintf("%s", desc.Body) }
-
-// Formatter for About content
-func (ab About) GoString() string { return fmt.Sprintf("%s", ab.Body) }
